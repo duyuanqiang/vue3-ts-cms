@@ -37,4 +37,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 "#vue3-ts-cms"  
 "#vue3-ts-cms"  
 "#vue3-ts-cms"  
-"#vue3-ts-cms"  
+"#vue3-ts-cms"
