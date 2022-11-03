@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/main'
+      redirect: '/login'
     },
     {
       path: '/login',
@@ -14,6 +14,10 @@ const router = createRouter({
     {
       path: '/main',
       component: () => import('../views/main/index.vue')
+    },
+    {
+      path: '/:pathMatch(.*)',
+      component: () => import('../views/not-found/not-found.vue')
     }
   ]
 })
