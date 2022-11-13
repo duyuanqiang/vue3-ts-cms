@@ -46,7 +46,7 @@ import { ref, watch } from 'vue'
 import PanelAccount from './panel-account.vue'
 import panelPhone from './panel-phone.vue'
 import { localCache } from '@/utils/cache'
-import { localCacheType, loginType } from '@/types'
+import { localCacheType, loginType } from '@/constant'
 
 let isRem = ref<boolean>(
   localCache.getCache(localCacheType.CHANGE_REMBER) ?? false
@@ -56,7 +56,7 @@ watch(isRem, (newValue) => {
   localCache.setCache(localCacheType.CHANGE_REMBER, newValue)
 })
 
-let activeName = ref<TabPaneName>(localCacheType.ACCOUNT)
+let activeName = ref<TabPaneName>(loginType.ACCOUNT)
 function changePanelName(name: TabPaneName) {
   activeName = ref(name)
 }

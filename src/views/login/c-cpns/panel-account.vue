@@ -7,11 +7,11 @@
       size="large"
       :rules="rules"
     >
-      <el-form-item label="帐号" prop="account" required>
-        <el-input v-model="accMessage.account" />
+      <el-form-item label="帐号" prop="name" required>
+        <el-input v-model="accMessage.name" />
       </el-form-item>
-      <el-form-item label="密码" prop="psw" required>
-        <el-input show-password v-model="accMessage.psw" />
+      <el-form-item label="密码" prop="password" required>
+        <el-input show-password v-model="accMessage.password" />
       </el-form-item>
     </el-form>
   </div>
@@ -22,16 +22,17 @@ import { localCache } from '@/utils/cache'
 import { ElMessage } from 'element-plus'
 import type { FormRules, ElForm } from 'element-plus'
 import { ref, reactive } from 'vue'
-import { localCacheType } from '@/types'
-import { login } from '@/service/login'
-const accMessage = reactive({
-  account: localCache.getCache(localCacheType.ACCOUNT) ?? '',
-  psw: localCache.getCache(localCacheType.PASSWORD) ?? ''
+import type { accountType } from '@/types'
+import { localCacheType } from '@/constant'
+import { useLoginStore } from '@/store/login/login'
+const accMessage = reactive<accountType>({
+  name: localCache.getCache(localCacheType.NAME) ?? '',
+  password: localCache.getCache(localCacheType.PASSWORD) ?? ''
 })
 
 //验证规则
 const rules = reactive<FormRules>({
-  account: [
+  name: [
     { required: true, message: '请输入账号', trigger: 'blur' },
     {
       pattern: /^[a-z0-9]{6,20}$/,
@@ -39,7 +40,7 @@ const rules = reactive<FormRules>({
       trigger: 'blur'
     }
   ],
-  psw: [
+  password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     {
       // pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
@@ -52,12 +53,12 @@ const rules = reactive<FormRules>({
 })
 function isSaveAcc(isRem: boolean) {
   if (isRem) {
-    const account = accMessage.account
-    const psw = accMessage.psw
-    localCache.setCache(localCacheType.ACCOUNT, account)
-    localCache.setCache(localCacheType.PASSWORD, psw)
+    const name = accMessage.name
+    const password = accMessage.password
+    localCache.setCache(localCacheType.NAME, name)
+    localCache.setCache(localCacheType.PASSWORD, password)
   } else {
-    localCache.setCache(localCacheType.ACCOUNT, '')
+    localCache.setCache(localCacheType.NAME, '')
     localCache.setCache(localCacheType.PASSWORD, '')
   }
 }
@@ -65,12 +66,10 @@ const accFormRef = ref<InstanceType<typeof ElForm>>()
 function loginAction(isRem: boolean) {
   accFormRef.value?.validate((valid) => {
     if (valid) {
-      const name = accMessage.account
-      const password = accMessage.psw
-      login({ name, password }).then((res) => {
-        console.log(res)
-      })
-      console.log('验证成功')
+      const name = accMessage.name
+      const password = accMessage.password
+      const loginStore = useLoginStore()
+      loginStore.loginAction({ name, password })
     } else {
       ElMessage.error('Oops, this is a error message.')
     }

@@ -1,7 +1,8 @@
 export enum localCacheType {
   CHANGE_REMBER = 'isRember',
-  ACCOUNT = 'account',
-  PASSWORD = 'password'
+  NAME = 'name',
+  PASSWORD = 'password',
+  TOKEN = 'token'
 }
 export enum loginType {
   PHONE = 'phone',
