@@ -54,6 +54,7 @@ let isRem = ref<boolean>(
 watch(isRem, (newValue) => {
   isRem.value = newValue
   localCache.setCache(localCacheType.CHANGE_REMBER, newValue)
+  // accountRef.value?.isSaveAcc(newValue)
 })
 
 let activeName = ref<TabPaneName>(loginType.ACCOUNT)

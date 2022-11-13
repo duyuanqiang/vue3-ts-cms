@@ -3,6 +3,7 @@ import { login } from '@/service/login'
 import type { accountType } from '@/types/common'
 import { localCache } from '@/utils/cache'
 import { localCacheType } from '@/constant'
+import router from '@/router'
 
 export const useLoginStore = defineStore('login', {
   state: () => ({
@@ -18,6 +19,9 @@ export const useLoginStore = defineStore('login', {
       this.name = logindata.data.name
       this.token = logindata.data.token
       localCache.setCache(localCacheType.TOKEN, logindata.data.token)
+
+      //跳转到主界面
+      router.push('/main')
     }
   }
 })

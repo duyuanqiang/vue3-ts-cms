@@ -77,6 +77,7 @@ function loginAction(isRem: boolean) {
   isSaveAcc(isRem)
 }
 defineExpose({
+  isSaveAcc,
   loginAction
 })
 </script>
