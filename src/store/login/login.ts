@@ -15,13 +15,14 @@ export const useLoginStore = defineStore('login', {
     async loginAction(account: accountType) {
       // 1.账号登录, 获取token等信息
       const logindata = await login(account)
-      this.id = logindata.data.id
-      this.name = logindata.data.name
-      this.token = logindata.data.token
-      localCache.setCache(localCacheType.TOKEN, logindata.data.token)
-
-      //跳转到主界面
-      router.push('/main')
+      if (logindata && logindata.data) {
+        this.id = logindata.data?.id ?? ''
+        this.name = logindata.data?.name ?? ''
+        this.token = logindata.data?.token ?? ''
+        localCache.setCache(localCacheType.TOKEN, this.token)
+        //跳转到主界面
+        router.push('/main')
+      }
     }
   }
 })

@@ -69,12 +69,14 @@ function loginAction(isRem: boolean) {
       const name = accMessage.name
       const password = accMessage.password
       const loginStore = useLoginStore()
-      loginStore.loginAction({ name, password })
+      loginStore.loginAction({ name, password }).then(() => {
+        isSaveAcc(isRem)
+        localCache.setCache(localCacheType.CHANGE_REMBER, isRem)
+      })
     } else {
       ElMessage.error('Oops, this is a error message.')
     }
   })
-  isSaveAcc(isRem)
 }
 defineExpose({
   isSaveAcc,
