@@ -1,7 +1,12 @@
 <template>
-  <div class="main">
-    <!-- <h2>main:{{ counterStore.counter }}--{{ counterStore.doubleCounter }}</h2> -->
-    <button @click="outLoginClick">退出登录</button>
+  <div class="common-layout">
+    <el-container>
+      <el-aside width="200px">Aside</el-aside>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>Main</el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -17,6 +22,8 @@ function outLoginClick() {
 </script>
 
 <style scoped lang="less">
-.main {
+.common-layout {
+  width: 100vw;
+  height: 100vh;
 }
 </style>
