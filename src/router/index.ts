@@ -15,7 +15,7 @@ const router = createRouter({
     },
     {
       path: '/main',
-      component: () => import('../views/main/index.vue')
+      component: () => import('../views/main/main.vue')
     },
     {
       path: '/:pathMatch(.*)',

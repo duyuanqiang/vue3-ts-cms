@@ -11,8 +11,8 @@ export const useLoginStore = defineStore('login', {
     id: '',
     token: localCache.getCache(localCacheType.TOKEN),
     name: '',
-    userInfo: {},
-    userMenusInfo: []
+    userInfo: localCache.getCache(localCacheType.USERINFO),
+    userMenusInfo: localCache.getCache(localCacheType.USERMENUSINFO)
   }),
   actions: {
     async loginAction(account: accountType) {
@@ -26,9 +26,13 @@ export const useLoginStore = defineStore('login', {
         //用户信息
         const userInfo = await getUserInfoById(this.id)
         this.userInfo = userInfo.data
-        //用户权限
-        const userMenusInfo = await getUserMenusByRoleId(this.id)
+        localCache.setCache(localCacheType.USERINFO, this.userInfo)
+        //角色信息
+        const roleId = this.userInfo?.role.id
+        const userMenusInfo = await getUserMenusByRoleId(roleId)
         this.userMenusInfo = userMenusInfo.data
+        console.log('role', userMenusInfo)
+        localCache.setCache(localCacheType.USERMENUSINFO, this.userMenusInfo)
         //跳转到主界面
         router.push('/main')
       }

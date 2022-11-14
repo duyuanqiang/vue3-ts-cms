@@ -1,18 +1,40 @@
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-aside width="200px">Aside</el-aside>
+  <div class="main">
+    <el-container class="main-content">
+      <el-aside width="210px" class="aside">
+        <main-menus />
+      </el-aside>
       <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-header><main-header /></el-header>
+        <el-main><main-content /></el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import MainMenus from './menus/index.vue'
+import MainHeader from './header/index.vue'
+import MainContent from './content/index.vue'
+</script>
 
 <style scoped lang="less">
-.home {
+.main {
+  height: 100%;
+  .main-content {
+    height: 100%;
+    .aside {
+      overflow-x: hidden;
+      overflow-y: auto;
+      cursor: pointer;
+      background: #001529;
+      scrollbar-width: none; /*firefox*/
+      -ms-overflow-style: none;
+      transition: width 0.3s ease;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
 }
 </style>

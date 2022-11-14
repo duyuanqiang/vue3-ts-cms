@@ -7,6 +7,6 @@ export type loginStoreType = {
   id: string
   token: string
   name: string
-  userInfo: object
+  userInfo: any
   userMenusInfo: any[]
 }

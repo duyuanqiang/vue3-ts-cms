@@ -9,7 +9,7 @@ class Cache {
   }
   getCache(key: string) {
     const value = this.store.getItem(key)
-    if (value) return JSON.parse(value)
+    if (value !== 'undefined') return JSON.parse(value)
   }
   setCache(key: string, value: any) {
     if (key) {
