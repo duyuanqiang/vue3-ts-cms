@@ -1,11 +1,13 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="210px" class="aside">
-        <main-menus />
+      <el-aside :width="isFold ? '60px' : '210px'" class="aside">
+        <main-menus :is-fold="isFold" />
       </el-aside>
       <el-container>
-        <el-header><main-header /></el-header>
+        <el-header height="50px"
+          ><main-header @change-flod="handleFlod"
+        /></el-header>
         <el-main><main-content /></el-main>
       </el-container>
     </el-container>
@@ -16,6 +18,11 @@
 import MainMenus from './menus/index.vue'
 import MainHeader from './header/index.vue'
 import MainContent from './content/index.vue'
+import { ref } from 'vue'
+const isFold = ref(false)
+function handleFlod(flag: boolean) {
+  isFold.value = flag
+}
 </script>
 
 <style scoped lang="less">

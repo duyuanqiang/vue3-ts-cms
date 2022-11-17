@@ -1,14 +1,14 @@
 <template>
   <div class="logo">
     <img class="img" src="@/assets/img/logo.svg" alt="" />
-    <div class="title">弘源后台管理系统</div>
+    <div class="title" v-show="!isFold">弘源后台管理系统</div>
   </div>
   <div class="menu">
     <el-menu
       active-text-color="#fff"
       background-color="#001529"
       text-color="#b7bdc3"
-      :collapse="false"
+      :collapse="isFold"
       default-active="1"
     >
       <template v-for="item in userMenusInfo" :key="item.id">
@@ -30,16 +30,14 @@
 
 <script lang="ts" setup>
 import { useLoginStore } from '@/store/login/login'
-import { ref } from 'vue'
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+defineProps({
+  isFold: {
+    type: Boolean,
+    default: false
+  }
+})
 const loginStore = useLoginStore()
 const userMenusInfo = loginStore.userMenusInfo
-console.log(userMenusInfo)
 </script>
 
 <style scoped lang="less">
