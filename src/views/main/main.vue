@@ -8,7 +8,7 @@
         <el-header height="50px"
           ><main-header @change-flod="handleFlod"
         /></el-header>
-        <el-main><main-content /></el-main>
+        <el-main> <router-view></router-view> </el-main>
       </el-container>
     </el-container>
   </div>

@@ -9,18 +9,23 @@
       background-color="#001529"
       text-color="#b7bdc3"
       :collapse="isFold"
-      default-active="1"
+      :default-active="defaultActive"
     >
-      <template v-for="item in userMenusInfo" :key="item.id">
-        <el-sub-menu :index="item.id">
+      <template v-for="item in menusInfo" :key="item.id">
+        <el-sub-menu :index="item.id + ''">
           <template #title>
             <el-icon>
               <component :is="item.icon.split('-icon-')[1]" />
             </el-icon>
-            <span>{{ item.name }}</span>
+            <span>{{ defaultActive === item.id + '' }}{{ item.name }}</span>
           </template>
-          <template v-for="val in item.children" :key="val.id">
-            <el-menu-item :index="val.id">{{ val.name }}</el-menu-item>
+          <template v-for="subitem in item.children" :key="subitem.id">
+            <el-menu-item
+              :index="subitem.id + ''"
+              @click="handleItemClick(subitem)"
+            >
+              {{ subitem.name }}
+            </el-menu-item>
           </template>
         </el-sub-menu>
       </template>
@@ -30,14 +35,27 @@
 
 <script lang="ts" setup>
 import { useLoginStore } from '@/store/login/login'
+import { mapMenu } from '@/utils/map-menus'
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 defineProps({
   isFold: {
     type: Boolean,
     default: false
   }
 })
+//通过路由设置初始index
 const loginStore = useLoginStore()
-const userMenusInfo = loginStore.userMenusInfo
+const menusInfo = loginStore.userMenusInfo
+const curRoute = useRoute()
+const route = mapMenu(curRoute.path, menusInfo)
+const defaultActive = ref(route.id + '')
+console.log(defaultActive.value)
+//路由跳转
+const router = useRouter()
+function handleItemClick(item) {
+  router.push(item.url)
+}
 </script>
 
 <style scoped lang="less">

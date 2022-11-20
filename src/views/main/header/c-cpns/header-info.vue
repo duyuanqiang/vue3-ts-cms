@@ -15,7 +15,7 @@
       <el-dropdown>
         <span class="user-info">
           <el-avatar
-            size="30px"
+            size="default"
             src="https://upload.jianshu.io/users/upload_avatars/1102036/c3628b478f06.jpeg"
           />
           <span class="user-name">{{ userInfo.name }} </span>
@@ -48,7 +48,7 @@ const loginStore = useLoginStore()
 const userInfo = loginStore.userInfo
 
 function handleExitClick() {
-  router.push('/login')
+  loginStore.outlogin()
 }
 </script>
 

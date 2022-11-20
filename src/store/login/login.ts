@@ -5,14 +5,15 @@ import type { accountType } from '@/types/common'
 import { localCache } from '@/utils/cache'
 import { localCacheType } from '@/constant'
 import router from '@/router'
+import { getRoleRoutes } from '@/utils/map-menus'
 
 export const useLoginStore = defineStore('login', {
   state: (): loginStoreType => ({
     id: '',
-    token: localCache.getCache(localCacheType.TOKEN),
     name: '',
-    userInfo: localCache.getCache(localCacheType.USERINFO),
-    userMenusInfo: localCache.getCache(localCacheType.USERMENUSINFO)
+    token: '',
+    userInfo: {},
+    userMenusInfo: []
   }),
   actions: {
     async loginAction(account: accountType) {
@@ -31,11 +32,32 @@ export const useLoginStore = defineStore('login', {
         const roleId = this.userInfo?.role.id
         const userMenusInfo = await getUserMenusByRoleId(roleId)
         this.userMenusInfo = userMenusInfo.data
-        console.log('role', userMenusInfo)
         localCache.setCache(localCacheType.USERMENUSINFO, this.userMenusInfo)
+
+        //获取角色具有的菜单路由。
+        const routes = getRoleRoutes(this.userMenusInfo)
+        routes.forEach((route) => {
+          router.addRoute('main', route)
+        })
         //跳转到主界面
         router.push('/main')
       }
+    },
+    localCacheAction() {
+      this.token = localCache.getCache(localCacheType.TOKEN)
+      this.userInfo = localCache.getCache(localCacheType.USERINFO)
+      this.userMenusInfo = localCache.getCache(localCacheType.USERMENUSINFO)
+      if (this.token && this.userInfo && this.userMenusInfo) {
+        //获取角色具有的菜单路由。
+        const routes = getRoleRoutes(this.userMenusInfo)
+        routes.forEach((route) => {
+          router.addRoute('main', route)
+        })
+      }
+    },
+    outlogin() {
+      localCache.removeCache(localCacheType.TOKEN)
+      router.push('/login')
     }
   }
 })
