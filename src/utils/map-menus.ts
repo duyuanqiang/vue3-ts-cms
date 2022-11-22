@@ -30,10 +30,31 @@ export function getRoleRoutes(menus: any[]) {
   return routes
 }
 
+//获取当前的路由数据
 export function mapMenu(curmenu: string, menus: any[]) {
   for (const menu of menus) {
     for (const submenu of menu.children) {
-      if (submenu.url === curmenu) return submenu
+      if (submenu.url === curmenu) {
+        return submenu
+      }
+    }
+  }
+  return undefined
+}
+//获取当前的面包屑组件的数据
+export type breadMenu = { name: string; path: string }
+//获取当前的路由数据
+export function mapPathToBreadcrumbs(curmenu: string, menus: any[]) {
+  const breadMenu: breadMenu[] = []
+  for (const menu of menus) {
+    for (const submenu of menu.children) {
+      if (submenu.url === curmenu) {
+        if (breadMenu.length == 0) {
+          breadMenu.push({ name: menu.name, path: menu.children[0].url })
+        }
+        breadMenu.push({ name: submenu.name, path: submenu.url })
+        return breadMenu
+      }
     }
   }
   return undefined

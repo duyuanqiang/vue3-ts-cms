@@ -17,7 +17,7 @@
             <el-icon>
               <component :is="item.icon.split('-icon-')[1]" />
             </el-icon>
-            <span>{{ defaultActive === item.id + '' }}{{ item.name }}</span>
+            <span>{{ item.name }}</span>
           </template>
           <template v-for="subitem in item.children" :key="subitem.id">
             <el-menu-item
@@ -35,8 +35,8 @@
 
 <script lang="ts" setup>
 import { useLoginStore } from '@/store/login/login'
-import { mapMenu } from '@/utils/map-menus'
-import { ref } from 'vue'
+import { mapMenu, mapPathToBreadcrumbs } from '@/utils/map-menus'
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 defineProps({
   isFold: {
@@ -48,12 +48,13 @@ defineProps({
 const loginStore = useLoginStore()
 const menusInfo = loginStore.userMenusInfo
 const curRoute = useRoute()
-const route = mapMenu(curRoute.path, menusInfo)
-const defaultActive = ref(route.id + '')
-console.log(defaultActive.value)
+const defaultActive = computed(() => {
+  return mapMenu(curRoute.path, menusInfo).id + ''
+})
 //路由跳转
 const router = useRouter()
 function handleItemClick(item) {
+  mapPathToBreadcrumbs(curRoute.path, menusInfo)
   router.push(item.url)
 }
 </script>
