@@ -12,7 +12,7 @@ export type loginStoreType = {
 }
 export type systemStoreType = {
   listData: listDataType[]
-  allCount: number
+  totalCount: number
 }
 export type listDataType = {
   cellphone: number

@@ -25,21 +25,44 @@
         align="center"
         prop="cellphone"
         label="手机号码"
-        width="150px"
+        width="180px"
       />
-      <el-table-column
-        align="center"
-        prop="enable"
-        label="状态"
-        width="100px"
-      />
-      <el-table-column align="center" prop="createAt" label="创建时间" />
-      <el-table-column align="center" prop="createAt" label="更新时间" />
+      <el-table-column align="center" prop="enable" label="状态" width="100px"
+        ><template #default="scope">
+          <el-button :type="scope.row.enable ? 'primary' : 'disable'">{{
+            scope.row.enable ? '启用' : '禁止'
+          }}</el-button>
+        </template></el-table-column
+      >
+      <el-table-column align="center" prop="createAt" label="创建时间">
+        <template #default="scope">
+          {{ formatUTC(scope.row.createAt) }}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="createAt" label="更新时间">
+        <template #default="scope">
+          {{ formatUTC(scope.row.createAt) }}
+        </template>
+      </el-table-column>
       <el-table-column align="center" prop="name" label="操作" width="180">
         <el-button type="primary" :icon="Edit" size="small">编辑</el-button>
         <el-button type="danger" :icon="Delete" size="small">删除</el-button>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30, 40]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout=" sizes, prev, pager, next, jumper,total"
+        :total="totalCount"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -47,12 +70,32 @@
 import useSysetmStore from '@/store/main/system/system'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
+import { formatUTC } from '@/utils/format'
+import { ref } from 'vue'
 const sysetmStore = useSysetmStore()
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+const small = ref(false)
+const background = ref(false)
+const disabled = ref(false)
 sysetmStore.getUserListData({
-  name: 'w',
-  cellphone: 4
+  offset: 0,
+  size: 10
 })
-const { listData } = storeToRefs(sysetmStore)
+const handleSizeChange = (val: number) => {
+  sysetmStore.getUserListData({
+    offset: 0,
+    size: val
+  })
+}
+const handleCurrentChange = (val: number) => {
+  sysetmStore.getUserListData({
+    offset: pageSize.value * (val - 1),
+    size: pageSize.value
+  })
+}
+const { listData, totalCount } = storeToRefs(sysetmStore)
 </script>
 
 <style scoped lang="less">
@@ -65,6 +108,20 @@ const { listData } = storeToRefs(sysetmStore)
   }
   .el-button {
     height: 32px;
+  }
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    .demo-pagination-block + .demo-pagination-block {
+      margin-top: 10px;
+    }
+    .demo-pagination-block .demonstration {
+      margin-bottom: 16px;
+    }
+    :deep(.el-pagination__total) {
+      margin: 20px !important;
+    }
   }
 }
 </style>
