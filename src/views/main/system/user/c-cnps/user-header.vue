@@ -18,8 +18,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="电话号码" prop="telnumber">
-            <el-input v-model="searchForm.telnumber"></el-input>
+          <el-form-item label="电话号码" prop="cellphone">
+            <el-input v-model="searchForm.cellphone"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -59,7 +59,7 @@
         size="large"
         @click="hanleQureyClick()"
       >
-        Cancel
+        搜索
       </el-button>
     </div>
   </div>
@@ -73,15 +73,18 @@ import { reactive, ref } from 'vue'
 const searchForm = reactive({
   name: '',
   realname: '',
-  telnumber: '',
+  cellphone: '',
   enable: '',
-  createAt: []
+  createAt: ''
 })
+const emit = defineEmits(['resetClick', 'searchClick'])
 const userFormRef = ref<InstanceType<typeof ElForm>>()
 function handleResetClick() {
   userFormRef.value?.resetFields()
+  emit('resetClick')
 }
 function hanleQureyClick() {
+  emit('searchClick', searchForm)
   console.log('提交数据')
 }
 </script>

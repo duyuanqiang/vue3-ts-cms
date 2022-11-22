@@ -79,22 +79,23 @@ const pageSize = ref(10)
 const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
-sysetmStore.getUserListData({
-  offset: 0,
-  size: 10
-})
+fetchQueryData()
+function fetchQueryData(format = {}) {
+  const offset = pageSize.value * (currentPage.value - 1)
+  const size = pageSize.value
+  const pageParam = { offset, size }
+  const pageInfo = { ...pageParam, ...format }
+  sysetmStore.getUserListData(pageInfo)
+}
 const handleSizeChange = (val: number) => {
-  sysetmStore.getUserListData({
-    offset: 0,
-    size: val
-  })
+  fetchQueryData()
 }
 const handleCurrentChange = (val: number) => {
-  sysetmStore.getUserListData({
-    offset: pageSize.value * (val - 1),
-    size: pageSize.value
-  })
+  fetchQueryData()
 }
+defineExpose({
+  fetchQueryData
+})
 const { listData, totalCount } = storeToRefs(sysetmStore)
 </script>
 

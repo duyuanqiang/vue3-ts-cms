@@ -11,7 +11,6 @@ const useSysetmStore = defineStore('system', {
       const listData = await postUsersListData(queryInfo)
       this.listData = listData.data.list
       this.totalCount = listData.data.totalCount
-      console.log(listData)
     }
   }
 })
