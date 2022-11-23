@@ -4,7 +4,9 @@ export enum localCacheType {
   PASSWORD = 'password',
   TOKEN = 'token',
   USERINFO = 'userinfo',
-  USERMENUSINFO = 'usermenusinfo'
+  USERMENUSINFO = 'usermenusinfo',
+  ROLESINFO = 'rolesinfo',
+  DEPARTSINFO = 'departsinfo'
 }
 export enum loginType {
   PHONE = 'phone',

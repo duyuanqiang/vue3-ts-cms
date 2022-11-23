@@ -3,7 +3,9 @@
     <div class="title">
       <h3 class="name">用户列表</h3>
       <div class="btn">
-        <el-button type="primary" size="large"> 新建用户 </el-button>
+        <el-button type="primary" size="large" @click="handleNewUserClick">
+          新建用户
+        </el-button>
       </div>
     </div>
     <el-table :data="listData" border style="width: 100%">
@@ -45,8 +47,22 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="name" label="操作" width="180">
-        <el-button type="primary" :icon="Edit" size="small">编辑</el-button>
-        <el-button type="danger" :icon="Delete" size="small">删除</el-button>
+        <template #default="scope">
+          <el-button
+            type="primary"
+            :icon="Edit"
+            size="small"
+            @click="handleEditClick(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            type="danger"
+            :icon="Delete"
+            size="small"
+            @click="handleDeleteClick(scope.row.id)"
+            >删除</el-button
+          >
+        </template>
       </el-table-column>
     </el-table>
     <div class="pagination">
@@ -72,6 +88,7 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
+import type { listDataType } from '@/types'
 const sysetmStore = useSysetmStore()
 
 const currentPage = ref(1)
@@ -80,6 +97,7 @@ const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
 fetchQueryData()
+const emit = defineEmits(['newClick', 'editClick'])
 function fetchQueryData(format = {}) {
   const offset = pageSize.value * (currentPage.value - 1)
   const size = pageSize.value
@@ -87,11 +105,21 @@ function fetchQueryData(format = {}) {
   const pageInfo = { ...pageParam, ...format }
   sysetmStore.getUserListData(pageInfo)
 }
-const handleSizeChange = (val: number) => {
+const handleSizeChange = () => {
   fetchQueryData()
 }
-const handleCurrentChange = (val: number) => {
+const handleCurrentChange = () => {
   fetchQueryData()
+}
+function handleNewUserClick() {
+  emit('newClick')
+}
+function handleDeleteClick(id: number) {
+  sysetmStore.deleteUserData(id)
+}
+function handleEditClick(row: listDataType) {
+  console.log(row)
+  emit('editClick', row)
 }
 defineExpose({
   fetchQueryData

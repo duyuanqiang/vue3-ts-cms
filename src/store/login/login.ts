@@ -6,6 +6,7 @@ import { localCache } from '@/utils/cache'
 import { localCacheType } from '@/constant'
 import router from '@/router'
 import { getRoleRoutes } from '@/utils/map-menus'
+import useMainStore from '../main/system/main'
 
 export const useLoginStore = defineStore('login', {
   state: (): loginStoreType => ({
@@ -39,6 +40,9 @@ export const useLoginStore = defineStore('login', {
         routes.forEach((route) => {
           router.addRoute('main', route)
         })
+        //获取所有角色和部门数据
+        const mainStore = useMainStore()
+        mainStore.getAllRolesData()
         //跳转到主界面
         router.push('/main')
       }
