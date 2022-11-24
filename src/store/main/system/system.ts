@@ -12,8 +12,8 @@ const useSysetmStore = defineStore('system', {
     totalCount: 0
   }),
   actions: {
-    async getUserListData(queryInfo: any) {
-      const listData = await postUsersListData(queryInfo)
+    async getUserListData(queryInfo: any, pageName = 'user') {
+      const listData = await postUsersListData(queryInfo, pageName)
       this.listData = listData.data.list
       this.totalCount = listData.data.totalCount
     },

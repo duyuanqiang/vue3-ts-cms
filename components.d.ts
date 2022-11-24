@@ -44,7 +44,13 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
+    PageContent: typeof import('./src/components/page/page-content.vue')['default']
+    PageHeader: typeof import('./src/components/page/page-header.vue')['default']
+    PageModal: typeof import('./src/components/page/page-modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserContent: typeof import('./src/components/page/user-content.vue')['default']
+    UserHeader: typeof import('./src/components/page/user-header.vue')['default']
+    UserModal: typeof import('./src/components/page/user-modal.vue')['default']
   }
 }

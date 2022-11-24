@@ -1,74 +1,65 @@
 <template>
   <div class="content">
     <div class="title">
-      <h3 class="name">用户列表</h3>
+      <h3 class="name">{{ configData.header.title }}</h3>
       <div class="btn">
         <el-button type="primary" size="large" @click="handleNewUserClick">
-          新建用户
+          {{ configData.header.newDepartBtn }}
         </el-button>
       </div>
     </div>
     <el-table :data="listData" border style="width: 100%">
-      <el-table-column
-        align="center"
-        type="selection"
-        width="60"
-        label="选择"
-      />
-      <el-table-column align="center" type="index" label="序号" width="150px" />
-      <el-table-column
-        align="center"
-        prop="name"
-        label="用户名"
-        width="150px"
-      />
-      <el-table-column
-        align="center"
-        prop="realname"
-        label="真实姓名"
-        width="150px"
-      />
-      <el-table-column
-        align="center"
-        prop="cellphone"
-        label="手机号码"
-        width="180px"
-      />
-      <el-table-column align="center" prop="enable" label="状态" width="100px"
-        ><template #default="scope">
-          <el-button :type="scope.row.enable ? 'primary' : 'disable'">{{
-            scope.row.enable ? '启用' : '禁止'
-          }}</el-button>
-        </template></el-table-column
-      >
-      <el-table-column align="center" prop="createAt" label="创建时间">
-        <template #default="scope">
-          {{ formatUTC(scope.row.createAt) }}
+      <template v-for="item in configData.propsList" :key="item.label">
+        <template v-if="item.type === 'index'">
+          <el-table-column
+            align="center"
+            :type="item.type"
+            :label="item.label"
+            :width="item.width"
+          />
         </template>
-      </el-table-column>
-      <el-table-column align="center" prop="createAt" label="更新时间">
-        <template #default="scope">
-          {{ formatUTC(scope.row.createAt) }}
+        <template v-else-if="item.type === 'normal'">
+          <el-table-column
+            align="center"
+            :type="item.type"
+            :label="item.label"
+            :width="item.width"
+            :prop="item.prop"
+          />
         </template>
-      </el-table-column>
-      <el-table-column align="center" prop="name" label="操作" width="180">
-        <template #default="scope">
-          <el-button
-            type="primary"
-            :icon="Edit"
-            size="small"
-            @click="handleEditClick(scope.row)"
-            >编辑</el-button
+        <template v-else-if="item.type === 'timer'">
+          <el-table-column align="center" :prop="item.prop" :label="item.label">
+            <template #default="scope">
+              {{ formatUTC(scope.row.createAt) }}
+            </template>
+          </el-table-column>
+        </template>
+        <template v-else-if="item.type === 'handle'">
+          <el-table-column
+            align="center"
+            :prop="item.name"
+            :label="item.label"
+            :width="item.width"
           >
-          <el-button
-            type="danger"
-            :icon="Delete"
-            size="small"
-            @click="handleDeleteClick(scope.row.id)"
-            >删除</el-button
-          >
+            <template #default="scope">
+              <el-button
+                type="primary"
+                :icon="Edit"
+                size="small"
+                @click="handleEditClick(scope.row)"
+                >编辑</el-button
+              >
+              <el-button
+                type="danger"
+                :icon="Delete"
+                size="small"
+                @click="handleDeleteClick(scope.row.id)"
+                >删除</el-button
+              >
+            </template>
+          </el-table-column>
         </template>
-      </el-table-column>
+      </template>
     </el-table>
     <div class="pagination">
       <el-pagination
@@ -94,8 +85,9 @@ import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
 import type { listDataType } from '@/types'
-const sysetmStore = useSysetmStore()
 
+const props = defineProps(['configData'])
+const sysetmStore = useSysetmStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
 const small = ref(false)
@@ -108,7 +100,7 @@ function fetchQueryData(format = {}) {
   const size = pageSize.value
   const pageParam = { offset, size }
   const pageInfo = { ...pageParam, ...format }
-  sysetmStore.getUserListData(pageInfo)
+  sysetmStore.getUserListData(pageInfo, props.configData.contentName)
 }
 const handleSizeChange = () => {
   fetchQueryData()
