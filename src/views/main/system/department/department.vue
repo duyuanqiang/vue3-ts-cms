@@ -11,7 +11,7 @@
       @new-click="handleNewClick"
       @edit-click="hanleEditClick"
     />
-    <page-modal ref="modalRef" :configData="departModalConfig" />
+    <page-modal ref="modalRef" :configData="modalConfigData" />
   </div>
 </template>
 
@@ -24,22 +24,26 @@ import {
   departsContentConfig,
   departModalConfig
 } from './config/departments.config'
-import { ref } from 'vue'
-import type { listDataType } from '@/types'
-const contentRef = ref<InstanceType<typeof pageContent>>()
-function handleResetClick() {
-  contentRef.value?.fetchQueryData()
-}
-function hanleQureyClick(formData: any) {
-  contentRef.value?.fetchQueryData(formData)
-}
-const modalRef = ref<InstanceType<typeof pageModal>>()
-function handleNewClick() {
-  modalRef.value?.changeDialogVisable(true)
-}
-function hanleEditClick(row: listDataType) {
-  modalRef.value?.changeDialogVisable(true, row)
-}
+import { computed, ref } from 'vue'
+import useMainStore from '@/store/main/system/main'
+import { usePageContent, usePageModal } from '@/hooks/usePageHooks'
+const modalConfigData = computed(() => {
+  const mainStore = useMainStore()
+  const departs = mainStore.departmentsData.map((item) => ({
+    value: item.id,
+    name: item.name
+  }))
+  departModalConfig.formItems.forEach((element) => {
+    for (const key in element) {
+      if (element[key] == 'parentId') {
+        element.options = departs
+      }
+    }
+  })
+  return departModalConfig
+})
+const { contentRef, handleResetClick, hanleQureyClick } = usePageContent()
+const { modalRef, handleNewClick, hanleEditClick } = usePageModal()
 </script>
 
 <style scoped></style>

@@ -12,7 +12,6 @@ export function deleteUserListData(useId: any, pageName = 'users') {
   })
 }
 export function addUserListData(pageInfo: any, pageName = 'users') {
-  console.log(pageName, 'pagename')
   return hyRequest.post({
     url: '/' + pageName,
     data: pageInfo

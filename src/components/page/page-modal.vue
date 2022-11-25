@@ -22,10 +22,10 @@
             <el-form-item :label="item.label" :prop="item.prop">
               <el-select style="width: 100%" v-model="formData[item.prop]">
                 <el-option
-                  v-for="item in departs"
-                  :label="item.name"
-                  :value="item.value"
-                  :key="item.value"
+                  v-for="value in item.options"
+                  :label="value.name"
+                  :value="value.value"
+                  :key="value.value"
                 />
               </el-select>
             </el-form-item>
@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-import useMainStore from '@/store/main/system/main'
 import useSysetmStore from '@/store/main/system/system'
 import type { listDataType } from '@/types'
 import type { modalType } from '@/types/pageConfigType'
@@ -60,11 +59,7 @@ const formData = reactive({})
 for (const item of props.configData.formItems) {
   formData[item.prop] = ''
 }
-const mainStore = useMainStore()
-const departs = mainStore.departmentsData.map((item) => ({
-  value: item.id,
-  name: item.name
-}))
+
 const formRef = ref<InstanceType<typeof ElForm>>()
 const dialogVisible = ref(false)
 function close() {
