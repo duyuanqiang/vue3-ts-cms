@@ -11,7 +11,7 @@
       @new-click="handleNewClick"
       @edit-click="hanleEditClick"
     />
-    <page-modal ref="modalRef" />
+    <page-modal ref="modalRef" :configData="departModalConfig" />
   </div>
 </template>
 
@@ -21,11 +21,11 @@ import pageContent from '@/components/page/page-content.vue'
 import pageModal from '@/components/page/page-modal.vue'
 import {
   departsHeaderConfig,
-  departsContentConfig
+  departsContentConfig,
+  departModalConfig
 } from './config/departments.config'
 import { ref } from 'vue'
 import type { listDataType } from '@/types'
-const emit = defineEmits(['resetClick', 'searchClick'])
 const contentRef = ref<InstanceType<typeof pageContent>>()
 function handleResetClick() {
   contentRef.value?.fetchQueryData()

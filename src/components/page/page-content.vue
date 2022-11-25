@@ -112,10 +112,9 @@ function handleNewUserClick() {
   emit('newClick')
 }
 function handleDeleteClick(id: number) {
-  sysetmStore.deleteUserData(id)
+  sysetmStore.deleteUserData(id, props.configData.contentName)
 }
 function handleEditClick(row: listDataType) {
-  console.log(row)
   emit('editClick', row)
 }
 defineExpose({

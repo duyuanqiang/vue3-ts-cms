@@ -17,20 +17,21 @@ const useSysetmStore = defineStore('system', {
       this.listData = listData.data.list
       this.totalCount = listData.data.totalCount
     },
-    async deleteUserData(id: number) {
-      const message = await deleteUserListData(id)
+    async deleteUserData(id: number, pageName = 'users') {
+      const message = await deleteUserListData(id, pageName)
       console.log(message)
-      this.getUserListData({ offset: 0, size: 10 })
+      this.getUserListData({ offset: 0, size: 10 }, pageName)
     },
-    async addUserData(addInfo: any) {
-      const message = await addUserListData(addInfo)
-      console.log(message)
-      this.getUserListData({ offset: 0, size: 10 })
+    async addUserData(addInfo: any, pageName = 'users') {
+      const message = await addUserListData(addInfo, pageName)
+      console.log(pageName, message)
+      this.getUserListData({ offset: 0, size: 10 }, pageName)
     },
-    async editUserData(id: number, addInfo: any) {
-      const message = await editUserData(id, addInfo)
-      console.log(addInfo, message)
-      this.getUserListData({ offset: 0, size: 10 })
+    async editUserData(id: number, addInfo: any, pageName = 'users') {
+      console.log(id, addInfo, pageName)
+
+      const message = await editUserData(id, addInfo, pageName)
+      this.getUserListData({ offset: 0, size: 10 }, pageName)
     }
   }
 })

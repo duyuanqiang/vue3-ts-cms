@@ -6,21 +6,22 @@ export function postUsersListData(queryInfo: any, pageName = 'users') {
     data: queryInfo
   })
 }
-export function deleteUserListData(useId: any) {
+export function deleteUserListData(useId: any, pageName = 'users') {
   return hyRequest.delete({
-    url: `/users/${useId}`
+    url: `/${pageName}/${useId}`
   })
 }
-export function addUserListData(userInfo: any) {
+export function addUserListData(pageInfo: any, pageName = 'users') {
+  console.log(pageName, 'pagename')
   return hyRequest.post({
-    url: '/users',
-    data: userInfo
+    url: '/' + pageName,
+    data: pageInfo
   })
 }
 
-export function editUserData(id: number, userInfo: any) {
+export function editUserData(id: number, pageInfo: any, pageName = 'users') {
   return hyRequest.patch({
-    url: `/users/${id}`,
-    data: userInfo
+    url: `/${pageName}/${id}`,
+    data: pageInfo
   })
 }

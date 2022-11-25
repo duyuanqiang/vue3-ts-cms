@@ -2,48 +2,35 @@
   <div class="user-modal">
     <el-dialog
       v-model="dialogVisible"
-      title="新建用户"
+      :title="
+        isNewUser ? configData.header.newTitle : configData.header.editTitle
+      "
       width="30%"
       center
       :before-close="close"
     >
       <el-form label-width="80px" size="large" :model="formData" ref="formRef">
-        <el-form-item label="用户名" prop="name"
-          ><el-input placeholder="请输入用户名" v-model="formData.name"
-        /></el-form-item>
-        <el-form-item label="真实姓名" required prop="realname"
-          ><el-input placeholder="请输入真实姓名" v-model="formData.realname"
-        /></el-form-item>
-        <el-form-item label="密码" prop="password" v-if="isNewUser"
-          ><el-input
-            type="password"
-            placeholder="请输入密码"
-            show-password
-            v-model="formData.password"
-        /></el-form-item>
-        <el-form-item label="电话号码" prop="cellphone"
-          ><el-input placeholder="请输入电话号码" v-model="formData.cellphone"
-        /></el-form-item>
-        <el-form-item label="选择角色" prop="roleId"
-          ><el-select style="width: 100%" v-model="formData.roleId">
-            <el-option
-              v-for="item in roles"
-              :label="item.name"
-              :value="item.value"
-              :key="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="选择部门" prop="departmentId"
-          ><el-select style="width: 100%" v-model="formData.departmentId">
-            <el-option
-              v-for="item in departs"
-              :label="item.name"
-              :value="item.value"
-              :key="item.value"
-            />
-          </el-select>
-        </el-form-item>
+        <template v-for="item in configData.formItems" :key="item.label">
+          <template v-if="item.type == 'input'">
+            <el-form-item :label="item.label" :prop="item.prop"
+              ><el-input
+                :placeholder="item.placeholder"
+                v-model="formData[item.prop]"
+            /></el-form-item>
+          </template>
+          <template v-if="item.type == 'select'">
+            <el-form-item :label="item.label" :prop="item.prop">
+              <el-select style="width: 100%" v-model="formData[item.prop]">
+                <el-option
+                  v-for="item in departs"
+                  :label="item.name"
+                  :value="item.value"
+                  :key="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </template>
+        </template>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -61,22 +48,19 @@
 import useMainStore from '@/store/main/system/main'
 import useSysetmStore from '@/store/main/system/system'
 import type { listDataType } from '@/types'
+import type { modalType } from '@/types/pageConfigType'
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
-const formData = reactive({
-  name: '',
-  realname: '',
-  password: '',
-  cellphone: '',
-  roleId: '',
-  departmentId: '',
-  id: ''
-})
+interface propsType {
+  configData: modalType
+}
+const props = defineProps<propsType>()
+
+const formData = reactive({})
+for (const item of props.configData.formItems) {
+  formData[item.prop] = ''
+}
 const mainStore = useMainStore()
-const roles = mainStore.rolesData.map((item) => ({
-  value: item.id,
-  name: item.intro
-}))
 const departs = mainStore.departmentsData.map((item) => ({
   value: item.id,
   name: item.name
@@ -96,7 +80,7 @@ function changeDialogVisable(visable: boolean, itemData?: listDataType) {
     for (const key in formData) {
       formData[key] = itemData[key]
     }
-    formData.id = itemData.id + ''
+    formData['id'] = itemData.id + ''
   } else {
     isNewUser.value = true
     formRef.value?.resetFields()
@@ -104,9 +88,13 @@ function changeDialogVisable(visable: boolean, itemData?: listDataType) {
 }
 function handleConfirmClick() {
   if (isNewUser.value) {
-    sysetmStore.addUserData(formData)
+    sysetmStore.addUserData(formData, props.configData.pageName)
   } else {
-    sysetmStore.editUserData(+formData.id, formData)
+    sysetmStore.editUserData(
+      +formData['id'],
+      formData,
+      props.configData.pageName
+    )
   }
   close()
 }
