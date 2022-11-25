@@ -100,6 +100,9 @@ function changeDialogVisable(visable: boolean, itemData?: listDataType) {
   } else {
     isNewUser.value = true
     formRef.value?.resetFields()
+    for (const key in formData) {
+      formData[key] = ''
+    }
   }
 }
 function handleConfirmClick() {
