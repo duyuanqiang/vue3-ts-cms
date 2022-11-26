@@ -7,9 +7,9 @@
       ref="userFormRef"
     >
       <el-row>
-        <template v-for="item in configData" :key="item.name">
+        <template v-for="item in configData.formItems" :key="item.name">
           <el-col :span="item.span">
-            <el-form-item :label="item.lable" :prop="item.prop">
+            <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
                 <el-input
                   v-model="searchForm[item.prop]"
@@ -66,7 +66,7 @@ import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
 const props = defineProps(['configData'])
 const searchForm: any = reactive({})
-for (const item of props.configData) {
+for (const item of props.configData.formItems) {
   searchForm[item.prop] = item.initvalue
 }
 const emit = defineEmits(['resetClick', 'searchClick'])

@@ -1,35 +1,38 @@
 import type { modalType } from '@/types/pageConfigType'
 
-export const departsHeaderConfig = [
-  {
-    span: 8,
-    lable: '部门名称',
-    prop: 'name',
-    placeholder: '请输入查询的部门名称',
-    type: 'input',
-    initvalue: ''
-  },
-  {
-    span: 8,
-    lable: '部门领导',
-    prop: 'leader',
-    placeholder: '请输入查询的部门领导',
-    type: 'input',
-    initvalue: ''
-  },
-  {
-    span: 8,
-    lable: '创建时间',
-    prop: 'createAt',
-    type: 'date-picker',
-    initvalue: '',
-    dateType: 'daterange',
-    rangeSeparator: '-',
-    startPlaceholder: '开始时间',
-    endPlaceholder: '结束时间',
-    size: 'large'
-  }
-]
+export const departsHeaderConfig = {
+  pageName: 'role',
+  formItems: [
+    {
+      span: 8,
+      label: '部门名称',
+      prop: 'name',
+      placeholder: '请输入查询的部门名称',
+      type: 'input',
+      initvalue: ''
+    },
+    {
+      span: 8,
+      label: '部门领导',
+      prop: 'leader',
+      placeholder: '请输入查询的部门领导',
+      type: 'input',
+      initvalue: ''
+    },
+    {
+      span: 8,
+      label: '创建时间',
+      prop: 'createAt',
+      type: 'date-picker',
+      initvalue: '',
+      dateType: 'daterange',
+      rangeSeparator: '-',
+      startPlaceholder: '开始时间',
+      endPlaceholder: '结束时间',
+      size: 'large'
+    }
+  ]
+}
 export const departsContentConfig = {
   contentName: 'department',
   header: {

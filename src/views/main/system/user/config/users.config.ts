@@ -1,54 +1,57 @@
 import type { modalType } from '@/types/pageConfigType'
 
-export const usersHeaderConfig = [
-  {
-    span: 8,
-    lable: '用户名',
-    prop: 'name',
-    placeholder: '请输入用户名',
-    type: 'input',
-    initvalue: ''
-  },
-  {
-    span: 8,
-    lable: '真实姓名',
-    prop: 'realname',
-    placeholder: '请输入真实姓名',
-    type: 'input',
-    initvalue: ''
-  },
-  {
-    span: 8,
-    lable: '电话号码',
-    prop: 'cellphone',
-    placeholder: '请输入电话号码',
-    type: 'input',
-    initvalue: ''
-  },
-  {
-    span: 8,
-    lable: '状态',
-    prop: 'enable',
-    placeholder: '选择状态',
-    type: 'select',
-    options: [
-      { value: 0, label: '禁止' },
-      { value: 1, label: '启用' }
-    ]
-  },
-  {
-    span: 8,
-    lable: '创建时间',
-    prop: 'createAt',
-    type: 'date-picker',
-    initvalue: '',
-    dateType: 'daterange',
-    rangeSeparator: '-',
-    startPlaceholder: '开始时间',
-    endPlaceholder: '结束时间',
-    size: 'large'
-  }
-]
+export const usersHeaderConfig = {
+  pageName: 'role',
+  formItems: [
+    {
+      span: 8,
+      label: '用户名',
+      prop: 'name',
+      placeholder: '请输入用户名',
+      type: 'input',
+      initvalue: ''
+    },
+    {
+      span: 8,
+      label: '真实姓名',
+      prop: 'realname',
+      placeholder: '请输入真实姓名',
+      type: 'input',
+      initvalue: ''
+    },
+    {
+      span: 8,
+      label: '电话号码',
+      prop: 'cellphone',
+      placeholder: '请输入电话号码',
+      type: 'input',
+      initvalue: ''
+    },
+    {
+      span: 8,
+      label: '状态',
+      prop: 'enable',
+      placeholder: '选择状态',
+      type: 'select',
+      options: [
+        { value: 0, label: '禁止' },
+        { value: 1, label: '启用' }
+      ]
+    },
+    {
+      span: 8,
+      label: '创建时间',
+      prop: 'createAt',
+      type: 'date-picker',
+      initvalue: '',
+      dateType: 'daterange',
+      rangeSeparator: '-',
+      startPlaceholder: '开始时间',
+      endPlaceholder: '结束时间',
+      size: 'large'
+    }
+  ]
+}
 export const usersContentConfig = {
   contentName: 'users',
   header: {

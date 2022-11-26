@@ -3,13 +3,13 @@
     <page-header
       :configData="departsHeaderConfig"
       @reset-click="handleResetClick"
-      @search-click="hanleQureyClick"
+      @search-click="handleQureyClick"
     />
     <page-content
       :configData="departsContentConfig"
       ref="contentRef"
       @new-click="handleNewClick"
-      @edit-click="hanleEditClick"
+      @edit-click="handleEditClick"
     />
     <page-modal ref="modalRef" :configData="modalConfigData" />
   </div>
@@ -36,8 +36,8 @@ const modalConfigData = computed(() => {
     'parentId'
   )
 })
-const { contentRef, handleResetClick, hanleQureyClick } = usePageContent()
-const { modalRef, handleNewClick, hanleEditClick } = usePageModal()
+const { contentRef, handleResetClick, handleQureyClick } = usePageContent()
+const { modalRef, handleNewClick, handleEditClick } = usePageModal()
 </script>
 
 <style scoped></style>

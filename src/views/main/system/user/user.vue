@@ -4,7 +4,7 @@
       <page-header
         :configData="usersHeaderConfig"
         @reset-click="handleResetClick"
-        @search-click="hanleQureyClick"
+        @search-click="handleQureyClick"
       />
     </div>
     <div class="content">
@@ -12,7 +12,7 @@
         ref="contentRef"
         :configData="usersContentConfig"
         @new-click="handleNewClick"
-        @edit-click="hanleEditClick"
+        @edit-click="handleEditClick"
       />
     </div>
   </div>
@@ -42,8 +42,8 @@ const modalConfigData = computed(() => {
   )
   return formatOptionsData(modalDepartData, mainStore.rolesData, 'roleId')
 })
-const { contentRef, handleResetClick, hanleQureyClick } = usePageContent()
-const { modalRef, handleNewClick, hanleEditClick } = usePageModal()
+const { contentRef, handleResetClick, handleQureyClick } = usePageContent()
+const { modalRef, handleNewClick, handleEditClick } = usePageModal()
 </script>
 
 <style scoped></style>

@@ -10,9 +10,10 @@ export interface Header {
 }
 
 export interface FormItem {
-  type: string
-  label: string
+  type?: string
+  label?: string
   prop: string
-  placeholder: string
+  placeholder?: string
   options?: any[]
+  slotName?: string
 }

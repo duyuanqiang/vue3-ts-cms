@@ -1,6 +1,6 @@
 import hyRequest from '../..'
 
-export function postUsersListData(queryInfo: any, pageName = 'users') {
+export function postContentListData(queryInfo: any, pageName = 'users') {
   return hyRequest.post({
     url: `/${pageName}/list`,
     data: queryInfo

@@ -18,7 +18,7 @@
                 v-model="formData[item.prop]"
             /></el-form-item>
           </template>
-          <template v-if="item.type == 'password'">
+          <template v-else-if="item.type == 'password'">
             <el-form-item :label="item.label" :prop="item.prop" v-if="isNewUser"
               ><el-input
                 :type="item.type"
@@ -27,7 +27,7 @@
                 v-model="formData[item.prop]"
             /></el-form-item>
           </template>
-          <template v-if="item.type == 'select'">
+          <template v-else-if="item.type == 'select'">
             <el-form-item :label="item.label" :prop="item.prop">
               <el-select style="width: 100%" v-model="formData[item.prop]">
                 <el-option
@@ -37,6 +37,11 @@
                   :key="value.value"
                 />
               </el-select>
+            </el-form-item>
+          </template>
+          <template v-else-if="item.type == 'custom'">
+            <el-form-item :label="item.label" :prop="item.prop">
+              <slot :name="item.slotName"></slot>
             </el-form-item>
           </template>
         </template>

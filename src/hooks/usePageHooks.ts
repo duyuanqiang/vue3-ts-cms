@@ -7,13 +7,13 @@ export function usePageContent() {
   function handleResetClick() {
     contentRef.value?.fetchQueryData()
   }
-  function hanleQureyClick(formData: any) {
+  function handleQureyClick(formData: any) {
     contentRef.value?.fetchQueryData(formData)
   }
   return {
     contentRef,
     handleResetClick,
-    hanleQureyClick
+    handleQureyClick
   }
 }
 export function usePageModal() {
@@ -21,12 +21,12 @@ export function usePageModal() {
   function handleNewClick() {
     modalRef.value?.changeDialogVisable(true)
   }
-  function hanleEditClick(row: listDataType) {
+  function handleEditClick(row: listDataType) {
     modalRef.value?.changeDialogVisable(true, row)
   }
   return {
     modalRef,
     handleNewClick,
-    hanleEditClick
+    handleEditClick
   }
 }

@@ -31,6 +31,7 @@ export type mainStoreType = {
   rolesCount: number
   departmentsData: departmentType[]
   departCount: number
+  menusData: MenuList[]
 }
 export type departmentType = {
   id: number

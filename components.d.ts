@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
+    ElTree: typeof import('element-plus/es')['ElTree']
     PageContent: typeof import('./src/components/page/page-content.vue')['default']
     PageHeader: typeof import('./src/components/page/page-header.vue')['default']
     PageModal: typeof import('./src/components/page/page-modal.vue')['default']

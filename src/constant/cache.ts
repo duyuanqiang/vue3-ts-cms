@@ -6,9 +6,15 @@ export enum localCacheType {
   USERINFO = 'userinfo',
   USERMENUSINFO = 'usermenusinfo',
   ROLESINFO = 'rolesinfo',
-  DEPARTSINFO = 'departsinfo'
+  DEPARTSINFO = 'departsinfo',
+  MENUSINFO = 'menusinfo'
 }
 export enum loginType {
   PHONE = 'phone',
   ACCOUNT = 'account'
+}
+export enum systemChildType {
+  ROLE = 'role',
+  DEPARTMENT = 'department',
+  MENU = 'menu'
 }

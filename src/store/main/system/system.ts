@@ -2,7 +2,7 @@ import type { systemStoreType } from '@/types/common'
 import { defineStore } from 'pinia'
 import {
   deleteUserListData,
-  postUsersListData,
+  postContentListData,
   addUserListData,
   editUserData
 } from '@/service/main/system/system'
@@ -13,9 +13,10 @@ const useSysetmStore = defineStore('system', {
   }),
   actions: {
     async getUserListData(queryInfo: any, pageName = 'users') {
-      const listData = await postUsersListData(queryInfo, pageName)
+      const listData = await postContentListData(queryInfo, pageName)
       this.listData = listData.data.list
       this.totalCount = listData.data.totalCount
+      console.log(pageName, listData)
     },
     async deleteUserData(id: number, pageName = 'users') {
       const message = await deleteUserListData(id, pageName)

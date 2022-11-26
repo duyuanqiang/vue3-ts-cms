@@ -1,25 +1,25 @@
-import { localCacheType } from '@/constant'
-import { getAllDepartData, getAllRolesData } from '@/service/main/main'
+import { systemChildType } from '@/constant'
+import { getAllListsData } from '@/service/main/main'
 import type { mainStoreType } from '@/types'
-import { localCache } from '@/utils/cache'
 import { defineStore } from 'pinia'
 const useMainStore = defineStore('main', {
   state: (): mainStoreType => ({
-    rolesData: localCache.getCache(localCacheType.ROLESINFO),
+    rolesData: [],
     rolesCount: 0,
-    departmentsData: localCache.getCache(localCacheType.DEPARTSINFO),
-    departCount: 0
+    departmentsData: [],
+    departCount: 0,
+    menusData: []
   }),
   actions: {
-    async getAllRolesData() {
-      const rolesData = await getAllRolesData()
+    async getAllListsData() {
+      const rolesData = await getAllListsData(systemChildType.ROLE)
       this.rolesData = rolesData.data.list
-      localCache.setCache(localCacheType.ROLESINFO, rolesData.data.list)
       this.rolesCount = rolesData.data.totalCount
-      const departsData = await getAllDepartData()
+      const departsData = await getAllListsData(systemChildType.DEPARTMENT)
       this.departmentsData = departsData.data.list
-      localCache.setCache(localCacheType.DEPARTSINFO, departsData.data.list)
       this.departCount = departsData.data.totalCount
+      const menusData = await getAllListsData(systemChildType.MENU)
+      this.menusData = menusData.data.list
     }
   }
 })
