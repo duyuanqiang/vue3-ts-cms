@@ -8,7 +8,12 @@
         </el-button>
       </div>
     </div>
-    <el-table :data="listData" border style="width: 100%">
+    <el-table
+      v-if="Object.keys(listData).length > 0"
+      :data="listData"
+      border
+      style="width: 100%"
+    >
       <el-table-column
         align="center"
         type="selection"
@@ -36,7 +41,7 @@
       />
       <el-table-column align="center" prop="enable" label="状态" width="100px"
         ><template #default="scope">
-          <el-button :type="scope.row.enable ? 'primary' : 'disable'">{{
+          <el-button :type="scope.row.enable ? 'primary' : 'danger'">{{
             scope.row.enable ? '启用' : '禁止'
           }}</el-button>
         </template></el-table-column

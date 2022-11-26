@@ -4,13 +4,21 @@
       <h3 class="name">{{ configData.header.title }}</h3>
       <div class="btn">
         <el-button type="primary" size="large" @click="handleNewUserClick">
-          {{ configData.header.newDepartBtn }}
+          {{ configData.header.newBtnName }}
         </el-button>
       </div>
     </div>
     <el-table :data="listData" border style="width: 100%">
       <template v-for="item in configData.propsList" :key="item.label">
-        <template v-if="item.type === 'index'">
+        <template v-if="item.type === 'selection'">
+          <el-table-column
+            align="center"
+            :type="item.type"
+            :label="item.label"
+            :width="item.width"
+          />
+        </template>
+        <template v-else-if="item.type === 'index'">
           <el-table-column
             align="center"
             :type="item.type"
@@ -26,6 +34,19 @@
             :width="item.width"
             :prop="item.prop"
           />
+        </template>
+        <template v-else-if="item.type === 'button'">
+          <el-table-column
+            align="center"
+            :label="item.label"
+            :width="item.width"
+            :prop="item.prop"
+            ><template #default="scope">
+              <el-button :type="scope.row.enable ? 'primary' : 'danger'">{{
+                scope.row.enable ? '启用' : '禁止'
+              }}</el-button>
+            </template></el-table-column
+          >
         </template>
         <template v-else-if="item.type === 'timer'">
           <el-table-column align="center" :prop="item.prop" :label="item.label">

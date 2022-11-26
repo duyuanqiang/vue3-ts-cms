@@ -24,23 +24,17 @@ import {
   departsContentConfig,
   departModalConfig
 } from './config/departments.config'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import useMainStore from '@/store/main/system/main'
 import { usePageContent, usePageModal } from '@/hooks/usePageHooks'
+import { formatOptionsData } from '@/utils/map-options'
 const modalConfigData = computed(() => {
   const mainStore = useMainStore()
-  const departs = mainStore.departmentsData.map((item) => ({
-    value: item.id,
-    name: item.name
-  }))
-  departModalConfig.formItems.forEach((element) => {
-    for (const key in element) {
-      if (element[key] == 'parentId') {
-        element.options = departs
-      }
-    }
-  })
-  return departModalConfig
+  return formatOptionsData(
+    departModalConfig,
+    mainStore.departmentsData,
+    'parentId'
+  )
 })
 const { contentRef, handleResetClick, hanleQureyClick } = usePageContent()
 const { modalRef, handleNewClick, hanleEditClick } = usePageModal()

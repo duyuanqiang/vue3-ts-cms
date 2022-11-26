@@ -18,6 +18,15 @@
                 v-model="formData[item.prop]"
             /></el-form-item>
           </template>
+          <template v-if="item.type == 'password'">
+            <el-form-item :label="item.label" :prop="item.prop" v-if="isNewUser"
+              ><el-input
+                :type="item.type"
+                :placeholder="item.placeholder"
+                show-password
+                v-model="formData[item.prop]"
+            /></el-form-item>
+          </template>
           <template v-if="item.type == 'select'">
             <el-form-item :label="item.label" :prop="item.prop">
               <el-select style="width: 100%" v-model="formData[item.prop]">

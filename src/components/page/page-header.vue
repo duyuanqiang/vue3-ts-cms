@@ -17,7 +17,7 @@
                 ></el-input>
               </template>
 
-              <template v-if="item.type === 'date-picker'">
+              <template v-else-if="item.type === 'date-picker'">
                 <el-date-picker
                   v-model="searchForm[item.prop]"
                   :type="item.dateType"
@@ -26,6 +26,13 @@
                   :end-placeholder="item.endPlaceholder"
                   :size="item.size"
                 />
+              </template>
+              <template v-else-if="item.type === 'select'">
+                <el-select placeholder="选择状态" v-model="searchForm.enable">
+                  <template v-for="opt in item.options" :key="opt.value">
+                    <el-option :label="opt.label" :value="opt.value" />
+                  </template>
+                </el-select>
               </template>
             </el-form-item>
           </el-col>

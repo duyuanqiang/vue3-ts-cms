@@ -34,7 +34,7 @@ export const departsContentConfig = {
   contentName: 'department',
   header: {
     title: '部门列表',
-    newDepartBtn: '新建部门'
+    newBtnName: '新建部门'
   },
   propsList: [
     {

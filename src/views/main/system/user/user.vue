@@ -1,43 +1,49 @@
 <template>
   <div class="user">
     <div class="user-header">
-      <user-header
+      <page-header
+        :configData="usersHeaderConfig"
         @reset-click="handleResetClick"
         @search-click="hanleQureyClick"
       />
     </div>
     <div class="content">
-      <user-content
+      <page-content
         ref="contentRef"
+        :configData="usersContentConfig"
         @new-click="handleNewClick"
         @edit-click="hanleEditClick"
       />
     </div>
   </div>
-  <user-modal ref="modalRef" />
+  <page-modal ref="modalRef" :configData="modalConfigData" />
 </template>
 
 <script setup lang="ts">
-import userHeader from './c-cnps/user-header.vue'
-import userContent from './c-cnps/user-content.vue'
-import userModal from './c-cnps/user-modal.vue'
+import pageHeader from '@/components/page/page-header.vue'
+import pageContent from '@/components/page/page-content.vue'
+import pageModal from '@/components/page/page-modal.vue'
+import {
+  usersHeaderConfig,
+  usersContentConfig,
+  usersModalConfig
+} from './config/users.config'
 
-import { ref } from 'vue'
-import type { listDataType } from '@/types'
-const contentRef = ref<InstanceType<typeof userContent>>()
-function handleResetClick() {
-  contentRef.value?.fetchQueryData()
-}
-function hanleQureyClick(formData: any) {
-  contentRef.value?.fetchQueryData(formData)
-}
-const modalRef = ref<InstanceType<typeof userModal>>()
-function handleNewClick() {
-  modalRef.value?.changeDialogVisable(true)
-}
-function hanleEditClick(row: listDataType) {
-  modalRef.value?.changeDialogVisable(true, row)
-}
+import { computed } from 'vue'
+import { usePageContent, usePageModal } from '@/hooks/usePageHooks'
+import useMainStore from '@/store/main/system/main'
+import { formatOptionsData } from '@/utils/map-options'
+const modalConfigData = computed(() => {
+  const mainStore = useMainStore()
+  const modalDepartData = formatOptionsData(
+    usersModalConfig,
+    mainStore.departmentsData,
+    'departmentId'
+  )
+  return formatOptionsData(modalDepartData, mainStore.rolesData, 'roleId')
+})
+const { contentRef, handleResetClick, hanleQureyClick } = usePageContent()
+const { modalRef, handleNewClick, hanleEditClick } = usePageModal()
 </script>
 
 <style scoped></style>
