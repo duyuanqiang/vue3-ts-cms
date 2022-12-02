@@ -66,12 +66,13 @@ import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
 interface propsType {
   configData: modalType
+  otherInfo?: {}
 }
 const props = defineProps<propsType>()
 
 const formData = reactive({})
 for (const item of props.configData.formItems) {
-  formData[item.prop] = ''
+  if (item.prop) formData[item.prop] = ''
 }
 
 const formRef = ref<InstanceType<typeof ElForm>>()
@@ -99,12 +100,14 @@ function changeDialogVisable(visable: boolean, itemData?: listDataType) {
   }
 }
 function handleConfirmClick() {
+  let infoData = formData
+  if (props.otherInfo) infoData = { ...formData, ...props.otherInfo }
   if (isNewUser.value) {
-    sysetmStore.addUserData(formData, props.configData.pageName)
+    sysetmStore.addUserData(infoData, props.configData.pageName)
   } else {
     sysetmStore.editUserData(
       +formData['id'],
-      formData,
+      infoData,
       props.configData.pageName
     )
   }

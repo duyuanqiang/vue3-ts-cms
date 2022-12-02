@@ -32,7 +32,7 @@ export const searchConfig = {
   ]
 }
 export const contentConfig = {
-  contentName: 'role',
+  pageName: 'role',
   header: {
     title: '角色列表',
     newBtnName: '新建角色'

@@ -36,7 +36,7 @@
 <script lang="ts" setup>
 import { useLoginStore } from '@/store/login/login'
 import { mapMenu, mapPathToBreadcrumbs } from '@/utils/map-menus'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 defineProps({
   isFold: {
@@ -49,7 +49,7 @@ const loginStore = useLoginStore()
 const menusInfo = loginStore.userMenusInfo
 const curRoute = useRoute()
 const defaultActive = computed(() => {
-  return mapMenu(curRoute.path, menusInfo).id + ''
+  return mapMenu(curRoute.path, menusInfo)?.id + '' || '1'
 })
 //路由跳转
 const router = useRouter()

@@ -7,14 +7,15 @@
     />
     <page-content
       :configData="contentConfig"
-      :otherInfo="otherInfo"
       ref="contentRef"
       @new-click="handleNewClick"
       @edit-click="handleEditClick"
     />
-    <page-modal :configData="modalConfig" ref="modalRef">
+
+    <page-modal :configData="modalConfig" :otherInfo="otherInfo" ref="modalRef">
       <template #menulist>
         <el-tree
+          ref="treeRef"
           :data="menusData"
           show-checkbox
           node-key="id"
@@ -41,13 +42,14 @@ import { searchConfig, contentConfig, modalConfig } from './config/role.config'
 
 import { usePageContent, usePageModal } from '@/hooks/usePageHooks'
 import useMainStore from '@/store/main/system/main'
-// import { mapMenuListToIds } from '@/utils/map-menus'
+import { mapMenuListToIds } from '@/utils/map-options'
 
 // 逻辑关系
 const { contentRef, handleQureyClick, handleResetClick } = usePageContent()
-const { modalRef, handleNewClick, handleEditClick } = usePageModal()
-// newCallback,
-// editCallback
+const { modalRef, handleNewClick, handleEditClick } = usePageModal(
+  newCallback,
+  editCallback
+)
 // 获取完整的菜单
 const mainStore = useMainStore()
 const { menusData } = storeToRefs(mainStore)
@@ -59,17 +61,17 @@ function handleElTreeCheck(data1: any, data2: any) {
 }
 
 const treeRef = ref<InstanceType<typeof ElTree>>()
-// function newCallback() {
-//   nextTick(() => {
-//     treeRef.value?.setCheckedKeys([])
-//   })
-// }
-// function editCallback(itemData: any) {
-//   // nextTick(() => {
-//   //   const menuIds = mapMenuListToIds(itemData.menuList)
-//   //   treeRef.value?.setCheckedKeys(menuIds)
-//   // })
-// }
+function newCallback() {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
+  })
+}
+function editCallback(itemData: any) {
+  nextTick(() => {
+    const menuIds = mapMenuListToIds(itemData.menuList)
+    treeRef.value?.setCheckedKeys(menuIds)
+  })
+}
 </script>
 
 <style lang="less" scoped></style>

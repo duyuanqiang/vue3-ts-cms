@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+//获取本地文件中的路由
 function getLocalRoutes() {
   const localRoutes: RouteRecordRaw[] = []
   const files: Record<string, any> = import.meta.glob('@/router/main/**/*.ts', {
@@ -12,6 +13,7 @@ function getLocalRoutes() {
   return localRoutes
 }
 export let firstMenu: any = null
+//查找本地与后端匹配的路由
 export function getRoleRoutes(menus: any[]) {
   const localRoutes = getLocalRoutes()
   // 将本地路由映射成真实路由
@@ -30,6 +32,9 @@ export function getRoleRoutes(menus: any[]) {
   return routes
 }
 
+export function clearFirst() {
+  firstMenu = null
+}
 //获取当前的路由数据
 export function mapMenu(curmenu: string, menus: any[]) {
   for (const menu of menus) {
@@ -58,4 +63,19 @@ export function mapPathToBreadcrumbs(curmenu: string, menus: any[]) {
     }
   }
   return undefined
+}
+//获取路由权限
+export function mapPermissions(menus: any[]) {
+  const permissions: any[] = []
+  function recGetPermission(menu: any[]) {
+    for (const item of menu) {
+      if (item.type === 3) {
+        permissions.push(item.permission)
+      } else {
+        recGetPermission(item.children ?? [])
+      }
+    }
+  }
+  recGetPermission(menus)
+  return permissions
 }

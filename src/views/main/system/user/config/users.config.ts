@@ -1,7 +1,7 @@
 import type { modalType } from '@/types/pageConfigType'
 
 export const usersHeaderConfig = {
-  pageName: 'role',
+  pageName: 'users',
   formItems: [
     {
       span: 8,
@@ -53,7 +53,7 @@ export const usersHeaderConfig = {
   ]
 }
 export const usersContentConfig = {
-  contentName: 'users',
+  pageName: 'users',
   header: {
     title: '用户列表',
     newBtnName: '新建用户'

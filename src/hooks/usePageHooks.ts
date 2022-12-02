@@ -1,3 +1,4 @@
+import { useLoginStore } from './../store/login/login'
 import { ref } from 'vue'
 import type pageContentVue from '@/components/page/page-content.vue'
 import type pageModalVue from '@/components/page/page-modal.vue'
@@ -16,12 +17,14 @@ export function usePageContent() {
     handleQureyClick
   }
 }
-export function usePageModal() {
+export function usePageModal(newCallback?, editCallback?) {
   const modalRef = ref<InstanceType<typeof pageModalVue>>()
   function handleNewClick() {
+    if (newCallback) newCallback()
     modalRef.value?.changeDialogVisable(true)
   }
   function handleEditClick(row: listDataType) {
+    if (editCallback) editCallback(row)
     modalRef.value?.changeDialogVisable(true, row)
   }
   return {
@@ -29,4 +32,11 @@ export function usePageModal() {
     handleNewClick,
     handleEditClick
   }
+}
+
+export function usePermissions(permissionsId: string) {
+  const loginStore = useLoginStore()
+
+  const { permissions } = loginStore
+  return !!permissions.find((item) => item.includes(permissionsId))
 }

@@ -1,7 +1,7 @@
 export interface modalType {
   pageName: string
   header: Header
-  formItems: FormItem[]
+  formItems: any[]
 }
 
 export interface Header {
@@ -12,7 +12,7 @@ export interface Header {
 export interface FormItem {
   type?: string
   label?: string
-  prop: string
+  prop?: string
   placeholder?: string
   options?: any[]
   slotName?: string

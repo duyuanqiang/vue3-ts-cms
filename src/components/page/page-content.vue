@@ -2,13 +2,18 @@
   <div class="content">
     <div class="title">
       <h3 class="name">{{ configData.header.title }}</h3>
-      <div class="btn">
+      <div class="btn" v-if="isCreate">
         <el-button type="primary" size="large" @click="handleNewUserClick">
           {{ configData.header.newBtnName }}
         </el-button>
       </div>
     </div>
-    <el-table :data="listData" border style="width: 100%">
+    <el-table
+      :data="listData"
+      v-bind="configData.childrenTree"
+      border
+      style="width: 100%"
+    >
       <template v-for="item in configData.propsList" :key="item.label">
         <template v-if="item.type === 'selection'">
           <el-table-column
@@ -68,6 +73,7 @@
                 :icon="Edit"
                 size="small"
                 @click="handleEditClick(scope.row)"
+                v-if="isUpdate"
                 >编辑</el-button
               >
               <el-button
@@ -75,10 +81,14 @@
                 :icon="Delete"
                 size="small"
                 @click="handleDeleteClick(scope.row.id)"
+                v-if="isDelete"
                 >删除</el-button
               >
             </template>
           </el-table-column>
+        </template>
+        <template v-else>
+          <el-table-column align="center" v-bind="item" />
         </template>
       </template>
     </el-table>
@@ -106,6 +116,7 @@ import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
 import type { listDataType } from '@/types'
+import { usePermissions } from '@/hooks/usePageHooks'
 
 const props = defineProps(['configData'])
 const sysetmStore = useSysetmStore()
@@ -115,14 +126,22 @@ const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
 fetchQueryData()
+const isCreate = usePermissions(`${props.configData.pageName}:create`)
+const isDelete = usePermissions(`${props.configData.pageName}:delete`)
+const isUpdate = usePermissions(`${props.configData.pageName}:update`)
 const emit = defineEmits(['newClick', 'editClick'])
 function fetchQueryData(format = {}) {
   const offset = pageSize.value * (currentPage.value - 1)
   const size = pageSize.value
   const pageParam = { offset, size }
   const pageInfo = { ...pageParam, ...format }
-  sysetmStore.getUserListData(pageInfo, props.configData.contentName)
+  sysetmStore.getUserListData(pageInfo, props.configData.pageName)
 }
+sysetmStore.$onAction(({ name, after }) => {
+  after(() => {
+    console.log(name, '执行完成的回调')
+  })
+})
 const handleSizeChange = () => {
   fetchQueryData()
 }
@@ -133,7 +152,7 @@ function handleNewUserClick() {
   emit('newClick')
 }
 function handleDeleteClick(id: number) {
-  sysetmStore.deleteUserData(id, props.configData.contentName)
+  sysetmStore.deleteUserData(id, props.configData.pageName)
 }
 function handleEditClick(row: listDataType) {
   emit('editClick', row)

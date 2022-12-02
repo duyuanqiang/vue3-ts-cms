@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" v-if="isQuery">
     <el-form
       label-width="80px"
       size="large"
@@ -61,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/hooks/usePageHooks'
 import { Refresh, Search } from '@element-plus/icons-vue'
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
@@ -69,6 +70,7 @@ const searchForm: any = reactive({})
 for (const item of props.configData.formItems) {
   searchForm[item.prop] = item.initvalue
 }
+const isQuery = ref(usePermissions(`${props.configData.pageName}:query`))
 const emit = defineEmits(['resetClick', 'searchClick'])
 const userFormRef = ref<InstanceType<typeof ElForm>>()
 function handleResetClick() {

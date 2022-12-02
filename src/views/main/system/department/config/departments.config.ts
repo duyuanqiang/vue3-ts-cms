@@ -34,7 +34,7 @@ export const departsHeaderConfig = {
   ]
 }
 export const departsContentConfig = {
-  contentName: 'department',
+  pageName: 'department',
   header: {
     title: '部门列表',
     newBtnName: '新建部门'

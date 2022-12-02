@@ -12,3 +12,20 @@ export function formatOptionsData(configValue, addOptions, keyWord) {
   })
   return configValue
 }
+
+export function mapMenuListToIds(menusList: []) {
+  const ids: number[] = []
+  function recurseGetId(menus) {
+    for (const item of menus) {
+      if (item.children) {
+        recurseGetId(item.children)
+      } else {
+        if (item.id) {
+          ids.push(item.id)
+        }
+      }
+    }
+  }
+  recurseGetId(menusList)
+  return ids
+}

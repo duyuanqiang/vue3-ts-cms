@@ -9,6 +9,7 @@ export type loginStoreType = {
   name: string
   userInfo: any
   userMenusInfo: any[]
+  permissions: any[]
 }
 export type systemStoreType = {
   listData: listDataType[]

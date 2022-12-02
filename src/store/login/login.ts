@@ -1,3 +1,4 @@
+import { clearFirst } from './../../utils/map-menus'
 import type { loginStoreType } from '@/types/common'
 import { defineStore } from 'pinia'
 import { getUserInfoById, login, getUserMenusByRoleId } from '@/service/login'
@@ -5,8 +6,9 @@ import type { accountType } from '@/types/common'
 import { localCache } from '@/utils/cache'
 import { localCacheType } from '@/constant'
 import router from '@/router'
-import { getRoleRoutes } from '@/utils/map-menus'
+import { getRoleRoutes, mapPermissions } from '@/utils/map-menus'
 import useMainStore from '../main/system/main'
+import useAnalysisStore from '../main/analysis/analysis'
 
 export const useLoginStore = defineStore('login', {
   state: (): loginStoreType => ({
@@ -14,7 +16,8 @@ export const useLoginStore = defineStore('login', {
     name: '',
     token: '',
     userInfo: {},
-    userMenusInfo: []
+    userMenusInfo: [],
+    permissions: []
   }),
   actions: {
     async loginAction(account: accountType) {
@@ -34,7 +37,8 @@ export const useLoginStore = defineStore('login', {
         const userMenusInfo = await getUserMenusByRoleId(roleId)
         this.userMenusInfo = userMenusInfo.data
         localCache.setCache(localCacheType.USERMENUSINFO, this.userMenusInfo)
-
+        //获取权限
+        this.permissions = mapPermissions(this.userMenusInfo)
         //获取角色具有的菜单路由。
         const routes = getRoleRoutes(this.userMenusInfo)
         routes.forEach((route) => {
@@ -43,6 +47,9 @@ export const useLoginStore = defineStore('login', {
         //获取所有角色和部门数据
         const mainStore = useMainStore()
         mainStore.getAllListsData()
+        //获取商品信息
+        const analysisStore = useAnalysisStore()
+        analysisStore.fetchAnalysisDataAction()
         //跳转到主界面
         router.push('/main')
       }
@@ -60,11 +67,17 @@ export const useLoginStore = defineStore('login', {
         //获取所有角色和部门数据
         const mainStore = useMainStore()
         mainStore.getAllListsData()
+        //获取角色权限
+        this.permissions = mapPermissions(this.userMenusInfo)
+        //获取商品信息
+        const analysisStore = useAnalysisStore()
+        analysisStore.fetchAnalysisDataAction()
       }
     },
     outlogin() {
       localCache.removeCache(localCacheType.TOKEN)
       router.push('/login')
+      clearFirst()
     }
   }
 })
